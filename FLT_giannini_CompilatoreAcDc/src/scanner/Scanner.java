@@ -189,7 +189,8 @@ public class Scanner {
 	private Token scanNumber(char nextChar) throws IOException, LexicalException {
 		
 	    StringBuilder numero = new StringBuilder(); // Accumula i caratteri del numero
-	    boolean isFloat = false; // Per distinguere tra INT e FLOAT
+	   
+		boolean isFloat = false; // Per distinguere tra INT e FLOAT
 	    int numbCounter = 0;
 	    
 	
@@ -202,7 +203,6 @@ public class Scanner {
 	        		break;
 	        	}
 	    }
-	   
 	   
 	    while (Character.isDigit(nextChar) || nextChar == '.') { // cicliamo finchè il prossimo carattere è un numero o un '.'
 	    	

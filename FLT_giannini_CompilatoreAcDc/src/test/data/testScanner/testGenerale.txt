@@ -5,4 +5,3 @@ float b;
 	b = temp + 3.2;
 	print b;
 	
-			
