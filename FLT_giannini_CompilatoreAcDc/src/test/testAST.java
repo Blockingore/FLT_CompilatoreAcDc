@@ -29,9 +29,12 @@ public class testAST {
 		
 	}
 
+<<<<<<< HEAD
 
 
 
 
 	
+=======
+>>>>>>> 36ab15652d309b028e8e72aae0077ed7fbe8daa6
 }

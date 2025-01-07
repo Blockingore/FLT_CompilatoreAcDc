@@ -13,8 +13,8 @@ import token.TokenType;
 
 class TestScanner {
 
-	String path = "C:\\Users\\Luca\\Downloads\\FLT_giannini_CompilatoreAcDc-20241210T082414Z-001\\FLT_giannini_CompilatoreAcDc\\src\\test\\data\\testScanner\\";
-	String path_mac = "/Users/lucajake/Downloads/FLT_giannini_CompilatoreAcDc/src/test/data/testScanner/";
+	//String path = "C:\\Users\\Luca\\Downloads\\FLT_giannini_CompilatoreAcDc-20241210T082414Z-001\\FLT_giannini_CompilatoreAcDc\\src\\test\\data\\testScanner\\";
+	String path = "/workspaces/FLT_giannini_CompilatoreAcDc-20241210T082414Z-001/FLT_giannini_CompilatoreAcDc/src/test/data/testScanner/";
 	
 	@Test
 	void testNextToken() throws LexicalException, IOException {
