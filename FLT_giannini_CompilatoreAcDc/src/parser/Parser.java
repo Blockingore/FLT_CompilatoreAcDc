@@ -99,7 +99,6 @@ public class Parser {
 	
 	private NodeExpr parseDclP() throws LexicalException, IOException, SyntacticException {
 		
-		//solo produzione 5 : DclP ->
 	Token tk = s.peekToken();
 	NodeExpr e ;
 		
@@ -258,9 +257,7 @@ public class Parser {
 			case DIV:
 				match(TokenType.DIV);
 				right = parseVal();
-				return parseTrP(new NodeBinOp(LangOper.DIV, left, right  ));
-				
-				
+				return parseTrP(new NodeBinOp(LangOper.DIV, left, right));
 				
 			//produzione -> ϵ 
 			case MINUS:

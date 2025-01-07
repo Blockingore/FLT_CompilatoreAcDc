@@ -31,13 +31,12 @@ public class Token {
 		return val;
 	}
 
-     
 	public String toString() {
 		if(val != null) {
-			return "<" + this.tipo + ",r:" + this.riga + ", " + this.val + ">";			
+			return "Token <" + this.tipo + ", r:" + this.riga + ", " + this.val + ">";			
 		}
 		else {
-			return "<" + this.tipo + ",r:" + this.riga + ">";
+			return "Token <" + this.tipo + ", r:" + this.riga + ">";
 		}
 	}
 

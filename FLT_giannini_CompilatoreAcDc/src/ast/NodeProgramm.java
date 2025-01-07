@@ -19,6 +19,6 @@ public class NodeProgramm {
 	
 	@Override
 	public String toString() {
-		return "NodeProgramm [decSts=" + decSts + "]";
+		return "NodeProgramm -> [DecSts=" + decSts + "];\t";
 	}
 }

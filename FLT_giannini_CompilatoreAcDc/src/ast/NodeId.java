@@ -1,5 +1,7 @@
 package ast;
 
+import java.lang.invoke.TypeDescriptor;
+
 public class NodeId {
 	private String name;
 	
@@ -9,8 +11,19 @@ public class NodeId {
 	public String getN() {
 		return name;
 	}
+
 	@Override
 	public String toString() {
-		return "NodeId [name=" + name + "]";
+		return "NodeId -> [names=" + name + "]; \t";
+	}
+
+	public TypeDescriptor calcResType(){
+
+		return null;
+	}
+
+    public String calcCodice(){
+
+		return null;
 	}
 }

@@ -6,8 +6,8 @@ public class NodeDecl extends NodeDecSt {
 	private LangType type;
 	private NodeExpr init;
 	
-	public NodeDecl(NodeId id, LangType type, NodeExpr init
-	) {
+	public NodeDecl(NodeId id, LangType type, NodeExpr init) 
+	{
 		this.id = id;
 		this.type = type;
 		this.init = init;
@@ -28,6 +28,7 @@ public class NodeDecl extends NodeDecSt {
 
 	@Override
 	public String toString() {
-		return "NodeDecl [id=" + id.toString() + ", type=" + type + ", init=" + init + "]";
+		return "\tNodeDecl -> [id=" + id.toString() + ", type=" + type + ", init=" + init + "];\t";
 	}
+
 }
