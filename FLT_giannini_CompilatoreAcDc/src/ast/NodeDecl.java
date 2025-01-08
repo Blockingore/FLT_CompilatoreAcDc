@@ -1,5 +1,7 @@
 package ast;
 
+import symbolTable.IVisitor;
+
 public class NodeDecl extends NodeDecSt {
 
 	private NodeId id;
@@ -29,6 +31,24 @@ public class NodeDecl extends NodeDecSt {
 	@Override
 	public String toString() {
 		return "\tNodeDecl -> [id=" + id.toString() + ", type=" + type + ", init=" + init + "];\t";
+	}
+
+	@Override
+	public TypeDescriptor calcResType() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'calcResType'");
+	}
+
+	@Override
+	public String calcCodice() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'accept'");
 	}
 
 }

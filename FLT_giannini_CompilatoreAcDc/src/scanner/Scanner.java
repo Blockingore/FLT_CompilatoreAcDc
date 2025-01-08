@@ -193,7 +193,6 @@ public class Scanner {
 		boolean isFloat = false; // Per distinguere tra INT e FLOAT
 	    int numbCounter = 0;
 	    
-	
 	    while (nextChar == '0') {
 	    	if(numero.length() < 1)
 	        	numero.append('0'); // Manteniamo uno zero
@@ -228,8 +227,6 @@ public class Scanner {
             }*/
 	    }//fine while
 	    
-	
-	    
 	    //accetto 5. come float e lo salvo come 5.0;
 	    if(numero.length() > 0 && isFloat && numero.charAt(numero.length()-1) == '.') { // se l'ultimo elemento del numero è '.'
 	    	numero.append('0');
@@ -250,9 +247,6 @@ public class Scanner {
 	        return new Token(TokenType.INT, riga, numero.toString());
 	    }
 	}
-	
-	
-	
 	
 	private Token scanId(char nextChar) throws IOException {
 	    // Inizializziamo un oggetto StringBuilder per costruire dinamicamente la stringa dell'identificatore

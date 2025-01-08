@@ -13,8 +13,8 @@ import token.TokenType;
 
 class TestScanner {
 
-	//String path = "C:\\Users\\Luca\\Downloads\\FLT_giannini_CompilatoreAcDc-20241210T082414Z-001\\FLT_giannini_CompilatoreAcDc\\src\\test\\data\\testScanner\\";
-	String path = "/workspaces/FLT_giannini_CompilatoreAcDc-20241210T082414Z-001/FLT_giannini_CompilatoreAcDc/src/test/data/testScanner/";
+	String path = "C:\\Users\\Luca\\Downloads\\FLT_giannini_CompilatoreAcDc-20241210T082414Z-001\\FLT_giannini_CompilatoreAcDc\\src\\test\\data\\testScanner\\";
+	//String path = "/workspaces/FLT_giannini_CompilatoreAcDc-20241210T082414Z-001/FLT_giannini_CompilatoreAcDc/src/test/data/testScanner/";
 	
 	@Test
 	void testNextToken() throws LexicalException, IOException {
@@ -305,6 +305,27 @@ class TestScanner {
 		assertEquals(  TokenType.INT  , tk.getTipo() );
 		assertEquals(  5  , tk.getRiga() );
 		
+		
+	}
+
+	@Test
+	void testKeyWords() throws LexicalException, IOException {
+		
+		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
+		Scanner scan = new Scanner(path + "testKeywords.txt");
+		Token tk;
+		
+		tk = scan.nextToken();
+		assertEquals(  TokenType.PRINT  , tk.getTipo() );
+		assertEquals(  2  , tk.getRiga() );
+		
+		tk = scan.nextToken();
+		assertEquals(  TokenType.TYFLOAT  , tk.getTipo() );
+		assertEquals(  2  , tk.getRiga() );
+		
+		tk = scan.nextToken();
+		assertEquals(  TokenType.TYINT  , tk.getTipo() );
+		assertEquals(  5  , tk.getRiga() );
 		
 	}
 	

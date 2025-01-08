@@ -16,14 +16,12 @@ public class Parser {
 		this.s = scan;
 	}
 	
-	
 	public NodeProgramm parse () throws SyntacticException, LexicalException, IOException {
 		return this.parsePrg();
 	}
 	
 	private NodeProgramm parsePrg() throws SyntacticException, LexicalException, IOException{
 		
-			
 		 Token tk = s.peekToken();
 		
 			switch (tk.getTipo()) {
@@ -44,10 +42,6 @@ public class Parser {
 					 // token tk alla riga tk.getRiga() non e’ inizio di programma
 		}
 	
-	
-	
-	
-	
 	private ArrayList<NodeDecSt> parseDSs() throws LexicalException, IOException, SyntacticException {
 		
 		Token tk = s.peekToken();
@@ -62,7 +56,8 @@ public class Parser {
 				dec = parseDSs();
 				dec.add(0, node);
 				return dec;
-			// produzione -> Stm DSs
+
+			// produzione -> Stm DSs  
 			case ID:
 			case PRINT:
 				NodeStm nodePrint = parseStm();
@@ -84,7 +79,7 @@ public class Parser {
 				
 			switch (tk.getTipo()) {
 			 
-			//produzione Ty id DclP
+			//produzione -> Ty id DclP
 			case TYFLOAT:
 			case TYINT:
 				LangType ty = parseTy();
@@ -109,7 +104,7 @@ public class Parser {
 			match(TokenType.SEMI);
 			return null;
 			
-			//produzione ->  = Exp ;
+			//produzione -> = Exp ;
 		case ASSIGN:
 			match(TokenType.ASSIGN);
 			e = parseExp();
@@ -297,7 +292,6 @@ public class Parser {
 		}
 	}
 	
-	
 	private NodeId parseOp() throws LexicalException, IOException, SyntacticException {
 		
 		Token tk = s.peekToken();
@@ -335,4 +329,7 @@ public class Parser {
 	}
 		
 }
+
+
+
 
