@@ -219,8 +219,10 @@ public class Parser {
 	}
 	
 	private NodeExpr parseTr() throws LexicalException, IOException, SyntacticException {
+
 		Token tk = s.peekToken();
 		NodeExpr left;
+		
 		switch(tk.getTipo()) {
 			//produzione -> Val Trp
 			case ID:
@@ -271,7 +273,7 @@ public class Parser {
 		Token tk1;
 		
 		switch(tk.getTipo()) {
-			//produzione -> int Val
+			//produzione -> intVal
 			case INT:
 				tk1 = match(TokenType.INT);
 				return new NodeCost( tk1.getVal() , LangType.INT );
@@ -319,11 +321,9 @@ public class Parser {
 	private Token match(TokenType type) throws SyntacticException, LexicalException, IOException  {
 		
 		Token tk = s.peekToken();
-		Token log = null;
 		
 		if (type.equals(tk.getTipo())  ) { 
-				log =	s.nextToken();
-		return log;
+				return	s.nextToken();
 		}		
 		else throw new SyntacticException("Errore nel match: previsto un Token: " + type + ", alla riga: " + tk.getRiga() + ". Invece trovato token: " + tk.getTipo());
 	}
