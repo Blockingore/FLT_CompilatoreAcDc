@@ -1,14 +1,12 @@
 package ast;
 
-import symbolTable.IVisitor;
-
 public class NodeId extends NodeAST {
 	private String name;
 	
 	public NodeId(String name) {
 		this.name = name;
 	}
-	public String getN() {
+	public String getName() {
 		return name;
 	}
 
@@ -18,20 +16,15 @@ public class NodeId extends NodeAST {
 	}
 
 
+	//OK MESSO A CASO
 	@Override
 	public TypeDescriptor calcResType(){
-
-		return null;
+		return new TypeDescriptor(TipoTD.OK);		
 	}
 
 	@Override
     public String calcCodice(){
 
 		return null;
-	}
-	@Override
-	public void accept(IVisitor visitor) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'accept'");
 	}
 }

@@ -12,8 +12,9 @@ import scanner.LexicalException;
 import scanner.Scanner;
 
 public class TestParser {
-	String path = "C:\\Users\\Luca\\Downloads\\FLT_giannini_CompilatoreAcDc-20241210T082414Z-001\\FLT_giannini_CompilatoreAcDc\\src\\test\\data\\\\testParser\\";
-	//String path = "/workspaces/FLT_giannini_CompilatoreAcDc-20241210T082414Z-001/FLT_giannini_CompilatoreAcDc/src/test/data/testParser/";
+
+
+	String path = "src/test/data/testParser/";
 
 	@Test
 	void testParserCorretto1() throws SyntacticException, LexicalException, IOException {

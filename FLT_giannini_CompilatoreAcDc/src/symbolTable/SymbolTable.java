@@ -1,6 +1,5 @@
 package symbolTable;
 
-import java.lang.invoke.TypeDescriptor;
 import java.util.HashMap;
 
 import ast.LangType;

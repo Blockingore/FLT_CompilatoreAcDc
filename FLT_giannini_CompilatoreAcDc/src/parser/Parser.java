@@ -140,14 +140,13 @@ public class Parser {
 	private NodeStm parseStm() throws LexicalException, IOException, SyntacticException {
 		
 		Token tk = s.peekToken();
-		Token tk1;
-			
+
 			switch (tk.getTipo()) {
 			 
 			//solo produzione 7 : Stm -> id Op Exp ;
 			//produzione float
 			case ID:
-				tk1 = match(TokenType.ID);
+				match(TokenType.ID);
 				NodeId nodeId = parseOp();
 				NodeExpr expr = parseExp();
 				match(TokenType.SEMI);
@@ -298,7 +297,6 @@ public class Parser {
 		
 		Token tk = s.peekToken();
 		Token tk1;
-		NodeExpr expr;
 		
 		switch(tk.getTipo()) {
 			//produzione -> =

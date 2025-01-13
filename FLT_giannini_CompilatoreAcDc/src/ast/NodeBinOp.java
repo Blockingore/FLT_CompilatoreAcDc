@@ -1,8 +1,5 @@
 package ast;
 
-
-import symbolTable.IVisitor;
-
 public class NodeBinOp extends NodeExpr {
 	
 	private LangOper op;
@@ -37,29 +34,32 @@ public class NodeBinOp extends NodeExpr {
 		
 		TypeDescriptor leftTD = left.calcResType();//descrittore di tipo della espressione sinistra
 		TypeDescriptor rightTD = right.calcResType();//descrittore di tipo della espressione destra
-		
-		if ( leftTD == TypeDescriptor.INT && rightTD == TypeDescriptor.INT ) //controlli opportuni su leftTD e rightTD
-			return TypeDescriptor.INT;
-		if ( (leftTD == TypeDescriptor.INT && rightTD == TypeDescriptor.FLOAT) ||  (leftTD == TypeDescriptor.FLOAT && rightTD == TypeDescriptor.FLOAT)  || (leftTD == TypeDescriptor.FLOAT && rightTD == TypeDescriptor.INT) )
-			return TypeDescriptor.FLOAT;
-		if ( (leftTD == TypeDescriptor.ERROR || rightTD == TypeDescriptor.ERROR)    ){
-			StringBuilder errorMessage = new StringBuilder() ;
-				if (leftTD == TypeDescriptor.ERROR) {
-					errorMessage.append("Errore da leftTD") ;
-				}
-				if (rightTD == TypeDescriptor.ERROR) {
-					errorMessage.append(" - Errore da rightTD") ;
-				}
-				//throw new LexicalException(errorMessage);
-				return TypeDescriptor.ERROR;
-			}
-		return TypeDescriptor.ERROR;
-		//ritorna il TypeDescriptor appropriato (se entrambi errori concatena msg)}
-}
 
-	public void accept(IVisitor visitor){
+		// se i due descrittori sono di tipo int allora il risultato è int
+		if ( leftTD.getTipo() == TipoTD.INT && rightTD.getTipo() == TipoTD.INT ) 
+			return new TypeDescriptor(TipoTD.INT);
+
+		// se uno dei due descrittori è di tipo float allora il risultato è float
+		if ( (leftTD.getTipo() == TipoTD.INT && rightTD.getTipo() == TipoTD.FLOAT) ||  (leftTD.getTipo() == TipoTD.FLOAT && rightTD.getTipo() == TipoTD.FLOAT)  || (leftTD.getTipo() == TipoTD.FLOAT && rightTD.getTipo() == TipoTD.INT) )
+			return new TypeDescriptor(TipoTD.FLOAT);
 		
-	}
+		// se uno dei due descrittori è di tipo errore allora il risultato è errore
+		if ( (leftTD.getTipo() == TipoTD.ERROR || rightTD.getTipo() == TipoTD.ERROR) ){
+
+			StringBuilder errorMessage = new StringBuilder() ;
+			
+			if (leftTD.getTipo() == TipoTD.ERROR) {
+				errorMessage.append("Errore da leftTD") ;
+			}else if(leftTD.getTipo() == TipoTD.ERROR && rightTD.getTipo() == TipoTD.ERROR) {
+				errorMessage.append(" - Errore da rightTD") ;
+			}
+			else if (rightTD.getTipo() == TipoTD.ERROR) {
+				errorMessage.append("Errore da rightTD") ;
+			}
+			return new TypeDescriptor(TipoTD.ERROR, errorMessage.toString());
+		}
+		return new TypeDescriptor(TipoTD.ERROR, "Errore da NodeBinOp (calcResType)");
+}
 
 	@Override
 	public String calcCodice() {

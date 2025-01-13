@@ -33,10 +33,10 @@ public class Token {
 
 	public String toString() {
 		if(val != null) {
-			return "Token <" + this.tipo + ", r:" + this.riga + ", " + this.val + ">";			
+			return this.tipo + ", riga: " + this.riga + ", " + this.val;			
 		}
 		else {
-			return "Token <" + this.tipo + ", r:" + this.riga + ">";
+			return this.tipo + ", riga: " + this.riga ;
 		}
 	}
 

@@ -1,6 +1,5 @@
 package ast;
 
-import symbolTable.IVisitor;
 
 public class NodeAssign extends NodeStm {
 	private NodeId id;
@@ -26,8 +25,22 @@ public class NodeAssign extends NodeStm {
 
 	@Override
 	public TypeDescriptor calcResType() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcResType'");
+
+		TypeDescriptor idType = id.calcResType();
+		TypeDescriptor exprType = expr.calcResType();
+		
+	
+		if (idType.getTipo() != exprType.getTipo() ) {
+			
+			if (idType.getTipo() == TipoTD.FLOAT && exprType.getTipo() == TipoTD.INT) {
+				return new TypeDescriptor(TipoTD.FLOAT);
+			}
+
+			return new TypeDescriptor(TipoTD.ERROR, "Impossibile assegnare un valore di tipo " + exprType + " a una variabile di tipo " + idType);
+		}
+
+
+		return new TypeDescriptor(idType.getTipo());
 	}
 
 	@Override
@@ -36,10 +49,5 @@ public class NodeAssign extends NodeStm {
 		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
 	}
 
-	@Override
-	public void accept(IVisitor visitor) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'accept'");
-	}
 	
 }

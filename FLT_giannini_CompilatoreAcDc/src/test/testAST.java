@@ -13,8 +13,9 @@ import scanner.Scanner;
 
 public class testAST {
 	
-	private String path = "C:\\Users\\Luca\\Downloads\\FLT_giannini_CompilatoreAcDc-20241210T082414Z-001\\FLT_giannini_CompilatoreAcDc\\src\\test\\data\\testParser\\";
-	
+	String path = "src/test/data/testParser/";
+
+
 	@Test
 	public void testSoloDichPrint() throws SyntacticException, LexicalException, IOException {
 		

@@ -1,7 +1,5 @@
 package ast;
 
-import symbolTable.IVisitor;
-
 public class NodeCost extends NodeExpr {
 	private String value;
 	private LangType type;
@@ -26,20 +24,13 @@ public class NodeCost extends NodeExpr {
 
 	@Override
 	public TypeDescriptor calcResType() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcResType'");
+		return null;
 	}
 
 	@Override
 	public String calcCodice() {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
-	}
-
-	@Override
-	public void accept(IVisitor visitor) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'accept'");
 	}
 	
 }
