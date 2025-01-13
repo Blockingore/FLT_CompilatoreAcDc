@@ -30,12 +30,11 @@ public class NodeAssign extends NodeStm {
 		TypeDescriptor exprType = expr.calcResType();
 		
 	
-		if (idType.getTipo() != exprType.getTipo() ) {
-			
-			if (idType.getTipo() == TipoTD.FLOAT && exprType.getTipo() == TipoTD.INT) {
-				return new TypeDescriptor(TipoTD.FLOAT);
-			}
+		if (idType.getTipo() == TipoTD.FLOAT && exprType.getTipo() == TipoTD.INT) {
+			return new TypeDescriptor(TipoTD.FLOAT);
+		}
 
+		if (idType.getTipo() != exprType.getTipo() ) {
 			return new TypeDescriptor(TipoTD.ERROR, "Impossibile assegnare un valore di tipo " + exprType + " a una variabile di tipo " + idType);
 		}
 

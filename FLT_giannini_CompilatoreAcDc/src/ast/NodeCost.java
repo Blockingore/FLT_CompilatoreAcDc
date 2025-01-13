@@ -24,7 +24,12 @@ public class NodeCost extends NodeExpr {
 
 	@Override
 	public TypeDescriptor calcResType() {
-		return null;
+		if(type == LangType.INT)
+			return new TypeDescriptor(TipoTD.INT);
+		else if(type == LangType.FLOAT)
+			return new TypeDescriptor(TipoTD.FLOAT);
+		else
+			return new TypeDescriptor(TipoTD.ERROR, "Tipo non valido");
 	}
 
 	@Override

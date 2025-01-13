@@ -32,13 +32,9 @@ public class NodeDecl extends NodeDecSt {
 	}
 
 
-	//???????????????????
 	@Override
 	public TypeDescriptor calcResType() {
-		if(init != null)
-			return new TypeDescriptor(init.calcResType().getTipo());
-		else 
-			return null;
+			return new TypeDescriptor(id.calcResType().getTipo());
 		}
 
 	@Override
