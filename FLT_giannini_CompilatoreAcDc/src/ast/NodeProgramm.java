@@ -2,6 +2,8 @@ package ast;
 
 import java.util.ArrayList;
 
+import symbolTable.SymbolTable;
+
 public class NodeProgramm {
 	
 	private ArrayList<NodeDecSt> decSts;

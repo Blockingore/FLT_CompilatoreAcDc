@@ -1,5 +1,8 @@
 package ast;
 
+import symbolTable.SymbolTable;
+import symbolTable.SymbolTable.Attributes;
+
 public class NodeDecl extends NodeDecSt {
 
 	private NodeId id;
@@ -11,7 +14,6 @@ public class NodeDecl extends NodeDecSt {
 		this.id = id;
 		this.type = type;
 		this.init = init;
-		
 	}
 
 	public NodeId getId() {
@@ -32,8 +34,18 @@ public class NodeDecl extends NodeDecSt {
 	}
 
 
+
+/*
+ * 
+ * 
+ * PARTIAMO DA QUI
+ */
+
+
 	@Override
 	public TypeDescriptor calcResType() {
+		SymbolTable.enter(id.getName(), new Attributes(type));
+
 			return new TypeDescriptor(id.calcResType().getTipo());
 		}
 

@@ -1,6 +1,5 @@
 package parser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import ast.*;
@@ -8,43 +7,56 @@ import scanner.LexicalException;
 import scanner.Scanner;
 import token.*;
 
+
 public class Parser {
 	
 	private Scanner s;
 	
-	public Parser(Scanner scan ) {
+	public Parser(Scanner scan) {
 		this.s = scan;
 	}
 	
-	public NodeProgramm parse () throws SyntacticException, LexicalException, IOException {
+	public NodeProgramm parse () throws SyntacticException{
 		return this.parsePrg();
 	}
 	
-	private NodeProgramm parsePrg() throws SyntacticException, LexicalException, IOException{
+	private NodeProgramm parsePrg() throws SyntacticException{
 		
-		 Token tk = s.peekToken();
+		 Token tk;
+
+		 try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		} 
 		
-			switch (tk.getTipo()) {
-		 
-				case TYFLOAT:
-				case TYINT:
-				case ID:
-				case PRINT:
-				case EOF:
-					ArrayList<NodeDecSt> dec = parseDSs();
-					NodeProgramm node = new NodeProgramm(dec);
-					match(TokenType.EOF);
-					return node;
-					
-			default:
-				throw new SyntacticException("Errore parser da ParsePrg: previsto un Token tra: TYFLOAT, TYINT, ID, PRINT, EOF;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
-			}
-					 // token tk alla riga tk.getRiga() non e’ inizio di programma
+		switch (tk.getTipo()) {
+		
+			case TYFLOAT:
+			case TYINT:
+			case ID:
+			case PRINT:
+			case EOF:
+				ArrayList<NodeDecSt> dec = parseDSs();
+				NodeProgramm node = new NodeProgramm(dec);
+				match(TokenType.EOF);
+				return node;
+				
+		default:
+			throw new SyntacticException("Errore parser da ParsePrg: previsto un Token tra: TYFLOAT, TYINT, ID, PRINT, EOF;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
 		}
+	}
 	
-	private ArrayList<NodeDecSt> parseDSs() throws LexicalException, IOException, SyntacticException {
+	private ArrayList<NodeDecSt> parseDSs() throws SyntacticException {
 		
-		Token tk = s.peekToken();
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}
+
 		ArrayList<NodeDecSt> dec = new ArrayList<NodeDecSt>(); 
 		
 		switch (tk.getTipo()) {
@@ -74,28 +86,44 @@ public class Parser {
 		}
 	}
 	
-	private NodeDecl parseDcl() throws LexicalException, IOException, SyntacticException {
-		Token tk = s.peekToken();
-				
-			switch (tk.getTipo()) {
-			 
-			//produzione -> Ty id DclP
-			case TYFLOAT:
-			case TYINT:
-				LangType ty = parseTy();
-			 	Token tk1 = match(TokenType.ID);
-			 	NodeId nId = new NodeId(tk1.toString());
-				NodeExpr nExpr = parseDclP();
-				return new NodeDecl( nId ,ty, nExpr);
-			default:
-				throw new SyntacticException("Errore parser da ParseDcl: previsto un Token tra: TYFLOAT, TYINT;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
-			}
+	private NodeDecl parseDcl() throws SyntacticException {
+
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}			
+
+		switch (tk.getTipo()) {
+			
+		//produzione -> Ty id DclP
+		case TYFLOAT:
+		case TYINT:
+			LangType ty = parseTy();
+			NodeId nId = new NodeId(match(TokenType.ID).getVal());
+
+			NodeExpr nExpr = parseDclP();
+
+			return new NodeDecl( nId ,ty, nExpr);
+
+		default:
+			throw new SyntacticException("Errore parser da ParseDcl: previsto un Token tra: TYFLOAT, TYINT;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
+		}
 	}
 	
-	private NodeExpr parseDclP() throws LexicalException, IOException, SyntacticException {
+	private NodeExpr parseDclP() throws SyntacticException {
 		
-	Token tk = s.peekToken();
-	NodeExpr e ;
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		} 
+
+		NodeExpr e;
 		
 		switch (tk.getTipo()) {
 		 
@@ -116,10 +144,16 @@ public class Parser {
 		}
 	}
 	
-	private LangType parseTy() throws LexicalException, IOException, SyntacticException {
-	
-		Token tk = s.peekToken();
+	private LangType parseTy() throws SyntacticException {
 		
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		} 
+
 		switch (tk.getTipo()) {
 		 
 		//produzione float
@@ -137,77 +171,115 @@ public class Parser {
 		
 	}
 
-	private NodeStm parseStm() throws LexicalException, IOException, SyntacticException {
+	private NodeStm parseStm() throws SyntacticException {
 		
-		Token tk = s.peekToken();
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		} 
 
 			switch (tk.getTipo()) {
 			 
 			//solo produzione 7 : Stm -> id Op Exp ;
-			//produzione float
 			case ID:
-				match(TokenType.ID);
-				NodeId nodeId = parseOp();
+				NodeId nodeId = new NodeId(match(TokenType.ID).getVal());
+				NodeId op = parseOp();
 				NodeExpr expr = parseExp();
+
+				switch (op.getName()) {
+					case "+=":
+						expr = new NodeBinOp(LangOper.PLUS, new NodeDeref(nodeId), expr);
+						break;
+					case "-=":
+						expr = new NodeBinOp(LangOper.MINUS, new NodeDeref(nodeId), expr);
+						break;
+					case "*=":
+						expr = new NodeBinOp(LangOper.TIMES, new NodeDeref(nodeId), expr);
+						break;
+					case "/=":
+						expr = new NodeBinOp(LangOper.DIV, new NodeDeref(nodeId), expr);
+						break;
+					default:
+						break;
+				}
+
 				match(TokenType.SEMI);
 				
-				NodeAssign node = new NodeAssign(nodeId, expr);
+				return new NodeAssign(nodeId, expr);
 				
-				return node;
-
 			//solo produzione 8 : Stm -> print id ;
-			
 			case PRINT:
 				match(TokenType.PRINT);
-				Token tkId = match(TokenType.ID);
+				NodeId nId = new NodeId(match(TokenType.ID).getVal());
+				
 				match(TokenType.SEMI);
-				NodeId nId = new NodeId(tkId.toString());
+
 				return new NodePrint(nId);
+
 			default:
 				throw new SyntacticException("Errore parser da ParseStm: previsto un Token tra: ID, PRINT;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
 			}
 		
 	}
 	
-	private NodeExpr parseExp() throws LexicalException, IOException, SyntacticException {
+	private NodeExpr parseExp() throws SyntacticException {
 		
-		Token tk = s.peekToken();
-		NodeExpr left;
-		NodeExpr nExpr; 
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		} 
+
+		NodeExpr tr;
+		NodeExpr expP; 
 		
 			switch(tk.getTipo()) {
 				//produzione -> Tr ExpP
 				case ID:
 				case FLOAT:
 				case INT:
-					left = parseTr();
-					nExpr = parseExpP(left);
-					return nExpr;
+					tr = parseTr();
+					expP = parseExpP(tr);
+					return expP;
 				
 				default:
 					throw new SyntacticException("Errore parser da ParseExp: previsto un Token tra: ID, FLOAT, INT;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
 			}
 	}
 	
-	private NodeExpr parseExpP(NodeExpr left) throws LexicalException, IOException, SyntacticException {
+	private NodeExpr parseExpP(NodeExpr left) throws SyntacticException {
 		
-		Token tk = s.peekToken();
-		NodeExpr right;
+		Token tk ;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}
+
+
+		NodeExpr tr, expP;
 		
 		switch(tk.getTipo()) {
 			//produzione -> + Tr ExpP
 			case PLUS:
 				match(TokenType.PLUS);
-				right = parseTr();
-				return parseExpP(new NodeBinOp(LangOper.PLUS, left, right));
+				tr = parseTr();
+				expP = parseExpP(tr);
+				return new NodeBinOp(LangOper.PLUS, left, expP);
 				
-				
-			//produzione -> - Tr ExpP
-			case MINUS:
+				//produzione -> - Tr ExpP
+				case MINUS:
 				match(TokenType.MINUS);
-				right = parseTr();
-				return parseExpP(new NodeBinOp(LangOper.MINUS, left, right));
-				
+				tr = parseTr();
+				expP = parseExpP(tr);
+				return new NodeBinOp(LangOper.MINUS, left, expP);
+
 			//produzione -> ϵ 
 			case SEMI:
 				return left;
@@ -217,43 +289,58 @@ public class Parser {
 		}
 	}
 	
-	private NodeExpr parseTr() throws LexicalException, IOException, SyntacticException {
+	private NodeExpr parseTr() throws SyntacticException {
 
-		Token tk = s.peekToken();
-		NodeExpr left;
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}
+
+		NodeExpr val;
 		
 		switch(tk.getTipo()) {
 			//produzione -> Val Trp
 			case ID:
 			case FLOAT:
 			case INT:
-				left = parseVal();
-				return parseTrP(left);
+				val = parseVal();
+				return parseTrP(val);
 			
 			default:
 				throw new SyntacticException("Errore parser da ParseTr: previsto un Token tra: ID, FLOAT, INT;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
 		}
 	}
 	
-	
-	private NodeExpr parseTrP(NodeExpr left) throws LexicalException, IOException, SyntacticException {
+	private NodeExpr parseTrP(NodeExpr left) throws SyntacticException {
 		
-		Token tk = s.peekToken();
-		NodeExpr right;
+		Token tk;
+	
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		} 
+
+		NodeExpr val, trp;
 		
 		switch(tk.getTipo()) {
 			//produzione -> * Val TrP
 			case TIMES:
 				match(TokenType.TIMES);
-				right = parseVal();
-				return parseTrP(new NodeBinOp(LangOper.TIMES, left, right));
+				val = parseVal();
+				trp = parseTrP(val);
+				return new NodeBinOp(LangOper.TIMES, left, trp);
 				
 				
 			//produzione -> / Val TrP
 			case DIV:
 				match(TokenType.DIV);
-				right = parseVal();
-				return parseTrP(new NodeBinOp(LangOper.DIV, left, right));
+				val = parseVal();
+				trp = parseTrP(val);
+				return new NodeBinOp(LangOper.DIV, left, trp);
 				
 			//produzione -> ϵ 
 			case MINUS:
@@ -266,26 +353,28 @@ public class Parser {
 		}
 	}
 	
-	private NodeExpr parseVal() throws LexicalException, IOException, SyntacticException {
+	private NodeExpr parseVal() throws SyntacticException {
 		
-		Token tk = s.peekToken();
-		Token tk1;
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}
 		
 		switch(tk.getTipo()) {
 			//produzione -> intVal
 			case INT:
-				tk1 = match(TokenType.INT);
-				return new NodeCost( tk1.getVal() , LangType.INT );
+				return new NodeCost( match(TokenType.INT).getVal() , LangType.INT );
 				
 			//produzione -> float Val
 			case FLOAT:
-				tk1 = match(TokenType.FLOAT);
-				return new NodeCost(tk1.getVal(), LangType.FLOAT);
+				return new NodeCost(match(TokenType.FLOAT).getVal(), LangType.FLOAT);
 				
 			//produzione -> id
 			case ID:
-				tk1 = match(TokenType.ID);
-				NodeId nId = new NodeId(tk1.getVal());
+				NodeId nId = new NodeId(match(TokenType.ID).getVal());
 				return new NodeDeref(nId);
 	
 			default:
@@ -293,37 +382,49 @@ public class Parser {
 		}
 	}
 	
-	private NodeId parseOp() throws LexicalException, IOException, SyntacticException {
+	private NodeId parseOp() throws SyntacticException {
 		
-		Token tk = s.peekToken();
-		Token tk1;
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}
 		
 		switch(tk.getTipo()) {
 			//produzione -> =
 			case ASSIGN:
-				tk1 = match(TokenType.ASSIGN);
-				return new NodeId(tk1.getVal());
+				return new NodeId(match(TokenType.ASSIGN).getVal());
 				
 				
 			//produzione -> OpAss
 			case OP_ASSIGN:
-				tk1 = match(TokenType.OP_ASSIGN);
-				return new NodeId(tk1.getVal());
-				
-	
+				return new NodeId(match(TokenType.OP_ASSIGN).getVal());
+					
 			default:
 				throw new SyntacticException("Errore parser da ParseOp: previsto un Token tra: ASSIGN, OP_ASSIGN;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
 		}
 	}
 	
-	private Token match(TokenType type) throws SyntacticException, LexicalException, IOException  {
+	private Token match(TokenType type) throws SyntacticException{
 		
-		Token tk = s.peekToken();
+		Token tk;
+
+		try {
+			tk = s.peekToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}
 		
-		if (type.equals(tk.getTipo())  ) { 
-				return	s.nextToken();
-		}		
-		else throw new SyntacticException("Errore nel match: previsto un Token: " + type + ", alla riga: " + tk.getRiga() + ". Invece trovato token: " + tk.getTipo());
+		try {
+			tk = s.nextToken();
+		} catch (LexicalException e){
+			throw new SyntacticException(e.getMessage());
+		}	
+		
+		throw new SyntacticException("Errore nel match: previsto un Token: " + type + ", alla riga: " + tk.getRiga() + ". Invece trovato token: " + tk.getTipo());
+	
 	}
 		
 }

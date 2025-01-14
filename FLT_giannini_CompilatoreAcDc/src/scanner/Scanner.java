@@ -34,8 +34,6 @@ public class Scanner {
 	
 	private Token nextTk = null;
 	
-	
-	
 	public void fillSkippers() {
 		skpChars = new ArrayList<Character>();
 		skpChars.add(' ');
@@ -56,6 +54,7 @@ public class Scanner {
 		}
 	
 	}
+	
 	public void fillDigits() {
 		digits = new ArrayList<Character>();
 		
@@ -64,7 +63,6 @@ public class Scanner {
 		}
 	}	
 	
-
 	public Scanner(String fileName) throws FileNotFoundException {
 
 		this.buffer = new PushbackReader(new FileReader(fileName));
@@ -94,7 +92,7 @@ public class Scanner {
 		
 	}
 
-	public Token nextToken() throws LexicalException, IOException  {
+	public Token nextToken() throws LexicalException {
 		
 		if(nextTk != null) {
 			Token t = nextTk;
@@ -141,7 +139,7 @@ public class Scanner {
 			readChar();
 			if(peekChar() == '=') {
 				readChar();
-				return new Token(TokenType.OP_ASSIGN, riga);
+				return new Token(TokenType.OP_ASSIGN,riga, nextChar + "=");
 			}
 			return new Token(operTkType.get(nextChar), riga );
 		} 
@@ -176,8 +174,7 @@ public class Scanner {
 		
 		}
 
-	
-	public Token peekToken() throws LexicalException, IOException {
+	public Token peekToken() throws LexicalException {
 		
 		if(nextTk == null) {
 			nextTk = nextToken();
@@ -185,8 +182,7 @@ public class Scanner {
 		return nextTk;
 	}
 
-
-	private Token scanNumber(char nextChar) throws IOException, LexicalException {
+	private Token scanNumber(char nextChar) throws LexicalException {
 		
 	    StringBuilder numero = new StringBuilder(); // Accumula i caratteri del numero
 	   
@@ -248,7 +244,7 @@ public class Scanner {
 	    }
 	}
 	
-	private Token scanId(char nextChar) throws IOException {
+	private Token scanId(char nextChar) throws LexicalException {
 	    // Inizializziamo un oggetto StringBuilder per costruire dinamicamente la stringa dell'identificatore
 	    StringBuilder stringa_di_appoggio = new StringBuilder();
 
@@ -272,13 +268,22 @@ public class Scanner {
 	    return new Token(TokenType.ID, riga, stringa_di_appoggio.toString());
 	}
 
-	private char readChar() throws IOException {
-		return ((char) this.buffer.read());
+	private char readChar() throws LexicalException {
+		try {
+			return ((char) this.buffer.read());
+		} catch (IOException e) {
+			throw new LexicalException("Errore durante la lettura del carattere");
+		}
 	}
 
-	private char peekChar() throws IOException {
-		char c = (char) buffer.read();
-		buffer.unread(c);
-		return c;
+	private char peekChar() throws LexicalException {
+		try {
+			char c = (char) buffer.read();
+			buffer.unread(c);
+			return c;
+		} catch (IOException e) {
+			throw new LexicalException("Errore durante la lettura del carattere");
+		}
+		
 	}
 }
