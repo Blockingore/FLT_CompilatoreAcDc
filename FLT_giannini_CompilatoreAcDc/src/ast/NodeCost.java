@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.IVisitor;
+
 public class NodeCost extends NodeExpr {
 	private String value;
 	private LangType type;
@@ -23,19 +25,13 @@ public class NodeCost extends NodeExpr {
 	}
 
 	@Override
-	public TypeDescriptor calcResType() {
-		if(type == LangType.INT)
-			return new TypeDescriptor(TipoTD.INT);
-		else if(type == LangType.FLOAT)
-			return new TypeDescriptor(TipoTD.FLOAT);
-		else
-			return new TypeDescriptor(TipoTD.ERROR, "Tipo non valido");
+	public String calcCodice() {
+		return " " + value;
 	}
 
 	@Override
-	public String calcCodice() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 	
 }

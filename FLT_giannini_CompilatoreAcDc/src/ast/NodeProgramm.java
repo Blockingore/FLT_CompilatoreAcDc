@@ -2,9 +2,9 @@ package ast;
 
 import java.util.ArrayList;
 
-import symbolTable.SymbolTable;
+import visitor.IVisitor;
 
-public class NodeProgramm {
+public class NodeProgramm extends NodeAST {
 	
 	private ArrayList<NodeDecSt> decSts;
 	
@@ -19,5 +19,15 @@ public class NodeProgramm {
 	@Override
 	public String toString() {
 		return "NodeProgramm -> [DecSts=" + decSts + "];\t";
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	@Override
+	public String calcCodice() {
+		return null;
 	}
 }

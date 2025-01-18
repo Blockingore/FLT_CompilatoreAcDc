@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.IVisitor;
+
 public class NodeDeref extends NodeExpr{
 
 	private NodeId id;
@@ -18,14 +20,13 @@ public class NodeDeref extends NodeExpr{
 	}
 
 	@Override
-	public TypeDescriptor calcResType() {
-		return new TypeDescriptor(id.calcResType().getTipo());
+	public String calcCodice() {
+		return "l" + id.calcCodice();
 	}
 
 	@Override
-	public String calcCodice() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

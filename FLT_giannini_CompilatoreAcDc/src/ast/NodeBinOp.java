@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.IVisitor;
+
 public class NodeBinOp extends NodeExpr {
 	
 	private LangOper op;
@@ -29,42 +31,22 @@ public class NodeBinOp extends NodeExpr {
 		return "NodeBinOp -> [op=" + op + ", left=" + left + ", right=" + right + "];\t";
 	}
 
-	@Override
-	public TypeDescriptor calcResType() {
-		
-		TypeDescriptor leftTD = left.calcResType();//descrittore di tipo della espressione sinistra
-		TypeDescriptor rightTD = right.calcResType();//descrittore di tipo della espressione destra
 
-		// se i due descrittori sono di tipo int allora il risultato è int
-		if ( leftTD.getTipo() == TipoTD.INT && rightTD.getTipo() == TipoTD.INT ) 
-			return new TypeDescriptor(TipoTD.INT);
-
-		// se uno dei due descrittori è di tipo float allora il risultato è float
-		if ( (leftTD.getTipo() == TipoTD.INT && rightTD.getTipo() == TipoTD.FLOAT) ||  (leftTD.getTipo() == TipoTD.FLOAT && rightTD.getTipo() == TipoTD.FLOAT)  || (leftTD.getTipo() == TipoTD.FLOAT && rightTD.getTipo() == TipoTD.INT) )
-			return new TypeDescriptor(TipoTD.FLOAT);
-		
-		// se uno dei due descrittori è di tipo errore allora il risultato è errore
-		if ( (leftTD.getTipo() == TipoTD.ERROR || rightTD.getTipo() == TipoTD.ERROR) ){
-
-			StringBuilder errorMessage = new StringBuilder() ;
-			
-			if (leftTD.getTipo() == TipoTD.ERROR) {
-				errorMessage.append("Errore da leftTD") ;
-			}else if(leftTD.getTipo() == TipoTD.ERROR && rightTD.getTipo() == TipoTD.ERROR) {
-				errorMessage.append(" - Errore da rightTD") ;
-			}
-			else if (rightTD.getTipo() == TipoTD.ERROR) {
-				errorMessage.append("Errore da rightTD") ;
-			}
-			return new TypeDescriptor(TipoTD.ERROR, errorMessage.toString());
-		}
-		return new TypeDescriptor(TipoTD.ERROR, "Errore da NodeBinOp (calcResType)");
-}
-
+	//Questo metodo è implementato in tutti i nodi concreti e ha lo stesso comportamento del visitor del nodo corrispondente.
 	@Override
 	public String calcCodice() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
+
+			String leftCd = left.calcCodice();//codice della espressione sinistra
+			String rightCd = right.calcCodice();//codice della espressione destra
+
+			
+
+			return leftCd + " " + rightCd + " " + this.getOp() ;//codice dell’espressione binaria
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

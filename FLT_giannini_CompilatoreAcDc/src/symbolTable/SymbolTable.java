@@ -9,7 +9,8 @@ public class SymbolTable {
     public static HashMap<String, Attributes>symbolMap;
         
         public static class Attributes{
-            
+
+            private char registro;
             private LangType tipo;
 
             public Attributes(LangType tipo){
@@ -19,6 +20,20 @@ public class SymbolTable {
             public LangType getTipo(){
                 return this.tipo;
             }
+
+            public char getRegistro() {
+                return registro;
+            }
+
+            public void setRegistro(char registro) {
+                this.registro = registro;
+            }
+
+            public void setTipo(LangType tipo) {
+                this.tipo = tipo;
+            }
+
+         
         }
     
     //crea e inizializza la symbolTable 

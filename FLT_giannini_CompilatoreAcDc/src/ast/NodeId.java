@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.IVisitor;
+
 public class NodeId extends NodeAST {
 	private String name;
 	
@@ -16,15 +18,13 @@ public class NodeId extends NodeAST {
 	}
 
 
-	//OK MESSO A CASO
-	@Override
-	public TypeDescriptor calcResType(){
-		return new TypeDescriptor(TipoTD.OK);		
-	}
-
+	//forse devo fare il controllo nella symboltable
 	@Override
     public String calcCodice(){
-
-		return null;
+		return name;
+	}
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 }

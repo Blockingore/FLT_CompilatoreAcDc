@@ -1,7 +1,6 @@
 package ast;
 
-import symbolTable.SymbolTable;
-import symbolTable.SymbolTable.Attributes;
+import visitor.IVisitor;
 
 public class NodeDecl extends NodeDecSt {
 
@@ -33,26 +32,14 @@ public class NodeDecl extends NodeDecSt {
 		return "\tNodeDecl -> [id=" + id.toString() + ", type=" + type + ", init=" + init + "];\t";
 	}
 
-
-
-/*
- * 
- * 
- * PARTIAMO DA QUI
- */
-
-
-	@Override
-	public TypeDescriptor calcResType() {
-		SymbolTable.enter(id.getName(), new Attributes(type));
-
-			return new TypeDescriptor(id.calcResType().getTipo());
-		}
-
 	@Override
 	public String calcCodice() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
+		return init.calcCodice() + " s" + id.calcCodice();
+	}
+
+	@Override
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 
 

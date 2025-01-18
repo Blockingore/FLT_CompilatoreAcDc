@@ -1,5 +1,6 @@
 package ast;
 
+import visitor.IVisitor;
 
 public class NodeAssign extends NodeStm {
 	private NodeId id;
@@ -24,28 +25,13 @@ public class NodeAssign extends NodeStm {
 	}
 
 	@Override
-	public TypeDescriptor calcResType() {
-
-		TypeDescriptor idType = id.calcResType();
-		TypeDescriptor exprType = expr.calcResType();
-		
-	
-		if (idType.getTipo() == TipoTD.FLOAT && exprType.getTipo() == TipoTD.INT) {
-			return new TypeDescriptor(TipoTD.FLOAT);
-		}
-
-		if (idType.getTipo() != exprType.getTipo() ) {
-			return new TypeDescriptor(TipoTD.ERROR, "Impossibile assegnare un valore di tipo " + exprType + " a una variabile di tipo " + idType);
-		}
-
-
-		return new TypeDescriptor(idType.getTipo());
+	public String calcCodice() {
+		return expr.calcCodice() + " s" + id.calcCodice();
 	}
 
 	@Override
-	public String calcCodice() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'calcCodice'");
+	public void accept(IVisitor visitor) {
+		visitor.visit(this);
 	}
 
 	
