@@ -53,6 +53,8 @@ public class NodeBinOp extends NodeExpr {
 				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " /";
 			}else if(this.getOp() == LangOper.PLUS){
 				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " +";
+			}else if(this.getOp() == LangOper.DIV_FLOAT){
+				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " 5 k / 0 k";
 			}else
 			return "";
 	}

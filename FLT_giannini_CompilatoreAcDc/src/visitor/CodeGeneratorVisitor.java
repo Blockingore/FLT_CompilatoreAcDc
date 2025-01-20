@@ -85,12 +85,7 @@ public class CodeGeneratorVisitor implements IVisitor{
         }
     
         attr.setRegistro(registro);
-            codiceDc = node.calcCodice();
-
-        //resetto la precisione se modificata in precedenza
-        if(codiceDc.contains("5 k"))
-            codiceDc = codiceDc.concat("0 k");
-        
+            codiceDc = node.calcCodice();        
     }
 
     @Override
@@ -101,9 +96,7 @@ public class CodeGeneratorVisitor implements IVisitor{
     @Override
     public void visit(NodeAssign node) {
 		codiceDc = node.calcCodice();
-		/* resetta la precisione se è stata modificata in precedenza */
-		if (codiceDc.contains("5 k"))
-			codiceDc = codiceDc.concat(" 0 k");
+
     }
 
 }
