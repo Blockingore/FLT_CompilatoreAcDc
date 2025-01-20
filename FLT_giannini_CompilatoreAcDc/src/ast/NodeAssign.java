@@ -26,7 +26,7 @@ public class NodeAssign extends NodeStm {
 
 	@Override
 	public String calcCodice() {
-		return expr.calcCodice() + " s" + id.calcCodice();
+		return expr.calcCodice() + " s" + id.calcCodice() ;
 	}
 
 	@Override

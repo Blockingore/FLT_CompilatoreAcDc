@@ -34,6 +34,9 @@ public class NodeDecl extends NodeDecSt {
 
 	@Override
 	public String calcCodice() {
+		if(init == null)
+			return "";
+		else
 		return init.calcCodice() + " s" + id.calcCodice();
 	}
 

@@ -20,7 +20,7 @@ public class NodePrint extends NodeStm {
 
 	@Override
 	public String calcCodice() {
-		return id.calcCodice() + " p P";
+		return "l" +id.calcCodice() + " p P";
 	}
 
 	@Override

@@ -18,36 +18,22 @@ public class CodeGeneratorVisitor implements IVisitor{
         log = ""; 
     }
 
+    public String getCodiceGenerato() {
+        return codiceGenerato.trim();
+    }
+
+    public String getLog() {
+        return log;
+    }
+
     @Override
     public void visit(NodeBinOp node) {
-        /* 
-        node.getLeft().accept(this);
-        String left = codiceDc;
-        node.getRight().accept(this);
-        String right = codiceDc;
-        */
-        
         node.accept(this);
         codiceDc = node.calcCodice();
-
-        /* 
-        if(node.getOp() == LangOper.PLUS){
-            codiceDc = left + " " + right + " +";
-        }else if(node.getOp() == LangOper.MINUS){
-            codiceDc = node.getLeft().calcCodice() + " " + node.getRight().calcCodice() + " -";
-        }else if(node.getOp() == LangOper.TIMES){
-            codiceDc = node.getLeft().calcCodice() + " " + node.getRight().calcCodice() + " *";
-        }else if(node.getOp() == LangOper.DIV){
-            codiceDc = node.getLeft().calcCodice() + " " + node.getRight().calcCodice() + " /";
-        }else if(node.getOp() == LangOper.PLUS){
-            codiceDc = node.getLeft().calcCodice() + " " + node.getRight().calcCodice() + " +";
-        }
-        */
     }
 
     @Override
     public void visit(NodeCost node) {
-        node.accept(this);
         codiceDc = node.calcCodice();
     }
 
@@ -65,9 +51,13 @@ public class CodeGeneratorVisitor implements IVisitor{
             if(log != null){
         
                 n.accept(this);
-                codiceGenerato += codiceDc + " "; 
-                codiceDc = "";
-        
+                if(codiceDc == ""){
+                    codiceGenerato += "";
+                    codiceDc = "";
+                }else{
+                    codiceGenerato += codiceDc + " "; 
+                    codiceDc = "";
+                }
             }else{
                 codiceGenerato = "";
             }
@@ -90,43 +80,26 @@ public class CodeGeneratorVisitor implements IVisitor{
             registro = Registri.newRegister();
         } catch (CodeGeneretorException e) {
             log = e.getMessage();
+            codiceGenerato = "";
             return;
         }
     
         attr.setRegistro(registro);
-
-        if(node.getInit() != null){
-            /*
-            node.getInit().accept(this);
-            String init = codiceDc;
-            
-            node.getId().accept(this);
-            String id = codiceDc;
-            */
-            node.accept(this);
             codiceDc = node.calcCodice();
 
-            //resetto la precisione se modificata in precedenza
-            if(codiceDc.contains("5 k"))
-                codiceDc = codiceDc.concat("0 k");
-        }
+        //resetto la precisione se modificata in precedenza
+        if(codiceDc.contains("5 k"))
+            codiceDc = codiceDc.concat("0 k");
+        
     }
 
     @Override
     public void visit(NodePrint node) {
-        node.accept(this);
         codiceDc = node.calcCodice();
     }
 
     @Override
     public void visit(NodeAssign node) {
-/* 
-        node.getExpr().accept(this);
-		String exprCodice = node.getExpr().calcCodice();
-
-		node.getId().accept(this);
-		String idCodice = node.getId().calcCodice(); */
-        node.accept(this);
 		codiceDc = node.calcCodice();
 		/* resetta la precisione se è stata modificata in precedenza */
 		if (codiceDc.contains("5 k"))

@@ -186,10 +186,10 @@ public class Parser {
 			//solo produzione 7 : Stm -> id Op Exp ;
 			case ID:
 				NodeId nodeId = new NodeId(match(TokenType.ID).getVal());
-				NodeId op = parseOp();
+				Token op = parseOp();
 				NodeExpr expr = parseExp();
 
-				switch (op.getName()) {
+				switch (op.getVal()) {
 					case "+=":
 						expr = new NodeBinOp(LangOper.PLUS, new NodeDeref(nodeId), expr);
 						break;
@@ -382,7 +382,7 @@ public class Parser {
 		}
 	}
 	
-	private NodeId parseOp() throws SyntacticException {
+	private Token parseOp() throws SyntacticException {
 		
 		Token tk;
 
@@ -395,12 +395,14 @@ public class Parser {
 		switch(tk.getTipo()) {
 			//produzione -> =
 			case ASSIGN:
-				return new NodeId(match(TokenType.ASSIGN).getVal());
+				Token tkn = match(TokenType.ASSIGN);
+				return new Token(tkn.getTipo(), tkn.getRiga(), tkn.getVal());
 				
 				
 			//produzione -> OpAss
 			case OP_ASSIGN:
-				return new NodeId(match(TokenType.OP_ASSIGN).getVal());
+				Token tkn1 = match(TokenType.OP_ASSIGN);
+				return new Token(tkn1.getTipo(), tkn1.getRiga(), tkn1.getVal());
 					
 			default:
 				throw new SyntacticException("Errore parser da ParseOp: previsto un Token tra: ASSIGN, OP_ASSIGN;\n Token trovato: " + tk.getTipo() + ", alla riga " + tk.getRiga());
@@ -417,14 +419,14 @@ public class Parser {
 			throw new SyntacticException(e.getMessage());
 		}
 		
-		try {
-			tk = s.nextToken();
-		} catch (LexicalException e){
-			throw new SyntacticException(e.getMessage());
-		}	
-		
-		throw new SyntacticException("Errore nel match: previsto un Token: " + type + ", alla riga: " + tk.getRiga() + ". Invece trovato token: " + tk.getTipo());
-	
+		if(type.equals(tk.getTipo())){
+			try {
+				return s.nextToken();
+			} catch (LexicalException e){
+				throw new SyntacticException(e.getMessage());
+			}	
+		}else
+			throw new SyntacticException("Errore nel match: previsto un Token: " + type + ", alla riga: " + tk.getRiga() + ". Invece trovato token: " + tk.getTipo());
 	}
 		
 }

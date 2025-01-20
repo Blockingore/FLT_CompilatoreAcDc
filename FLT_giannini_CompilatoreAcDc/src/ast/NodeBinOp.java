@@ -18,6 +18,10 @@ public class NodeBinOp extends NodeExpr {
 		return op;
 	}
 
+	public void setOp(LangOper op) {
+		this.op = op;
+	}
+
 	public NodeExpr getLeft() {
 		return left;
 	}
@@ -39,9 +43,18 @@ public class NodeBinOp extends NodeExpr {
 			String leftCd = left.calcCodice();//codice della espressione sinistra
 			String rightCd = right.calcCodice();//codice della espressione destra
 
-			
-
-			return leftCd + " " + rightCd + " " + this.getOp() ;//codice dell’espressione binaria
+			if(this.getOp() == LangOper.PLUS){
+				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " +";
+			}else if(this.getOp() == LangOper.MINUS){
+				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " -";
+			}else if(this.getOp() == LangOper.TIMES){
+				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " *";
+			}else if(this.getOp() == LangOper.DIV){
+				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " /";
+			}else if(this.getOp() == LangOper.PLUS){
+				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " +";
+			}else
+			return "";
 	}
 
 	@Override

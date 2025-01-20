@@ -51,6 +51,8 @@ class TestScanner {
 	
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.OP_ASSIGN  , tk.getTipo() );
+		 assertEquals(  "+="  , tk.getVal() );
+
 		 assertEquals( tk.getRiga(), 2  );
 		 
 		 tk = scan.nextToken();

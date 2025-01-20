@@ -28,6 +28,6 @@ public class NodeProgramm extends NodeAST {
 
 	@Override
 	public String calcCodice() {
-		return null;
+		return "";
 	}
 }

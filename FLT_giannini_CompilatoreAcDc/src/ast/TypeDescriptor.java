@@ -4,7 +4,6 @@ public class TypeDescriptor {
 
     private TipoTD tipo;
     private String msg;
-    //private String riga;
     
     public TypeDescriptor(TipoTD tipo, String msg) {
         this.tipo = tipo;
@@ -19,6 +18,7 @@ public class TypeDescriptor {
     public TipoTD getTipo() {
         return tipo;
     }
+    
     public String getMsg() {
         return msg;
     }

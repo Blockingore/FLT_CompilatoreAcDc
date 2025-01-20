@@ -3,6 +3,7 @@ package ast;
 import visitor.IVisitor;
 
 public class NodeId extends NodeAST {
+	
 	private String name;
 	
 	public NodeId(String name) {

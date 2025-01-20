@@ -26,7 +26,7 @@ public class NodeCost extends NodeExpr {
 
 	@Override
 	public String calcCodice() {
-		return " " + value;
+		return value;
 	}
 
 	@Override

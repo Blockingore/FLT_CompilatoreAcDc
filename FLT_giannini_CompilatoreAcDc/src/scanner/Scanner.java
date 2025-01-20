@@ -134,14 +134,14 @@ public class Scanner {
 		// Se nextChar e' o in operators oppure delimitatore
 		// ritorna il Token associato con l'operatore o il delimitatore
 		// Attenzione agli operatori di assegnamento!
-
+			
 		if(operTkType.containsKey(nextChar)){
 			readChar();
 			if(peekChar() == '=') {
 				readChar();
 				return new Token(TokenType.OP_ASSIGN,riga, nextChar + "=");
 			}
-			return new Token(operTkType.get(nextChar), riga );
+			return new Token(operTkType.get(nextChar), riga, String.valueOf(nextChar)  );
 		} 
 		
 		
@@ -151,7 +151,7 @@ public class Scanner {
 		
 		if( delimTkType.containsKey(nextChar)) {
 			readChar();
-			return new Token(delimTkType.get(nextChar), riga );
+			return new Token(delimTkType.get(nextChar), riga, String.valueOf(nextChar));
 		}
 		
 		

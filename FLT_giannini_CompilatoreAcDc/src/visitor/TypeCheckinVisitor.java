@@ -9,11 +9,9 @@ import symbolTable.SymbolTable;
 public class TypeCheckinVisitor implements IVisitor{
 
     private TypeDescriptor resType; // mantiene il risultato della visita
-    private String log;
 
-    public void TypeCheckingVisitor(){
+    public TypeCheckinVisitor(){
         SymbolTable.init();
-        log = "";
     }
 
     @Override
@@ -29,11 +27,13 @@ public class TypeCheckinVisitor implements IVisitor{
         // se i due descrittori sono di tipo int allora il risultato è int
         if(leftTD.getTipo() == TipoTD.INT && rightTD.getTipo() == TipoTD.INT){
            resType = new TypeDescriptor(TipoTD.INT);
+           node.setOp(LangOper.DIV);
         }
 
         // se uno dei due descrittori è di tipo float allora il risultato è float
         else if((leftTD.getTipo() == TipoTD.INT && rightTD.getTipo() == TipoTD.FLOAT) || (leftTD.getTipo() == TipoTD.FLOAT && rightTD.getTipo() == TipoTD.FLOAT) || (leftTD.getTipo() == TipoTD.FLOAT && rightTD.getTipo() == TipoTD.INT)){
             resType = new TypeDescriptor(TipoTD.FLOAT);
+            node.setOp(LangOper.DIV_FLOAT);
         }
 
         // se uno dei due descrittori è di tipo errore allora il risultato è errore
