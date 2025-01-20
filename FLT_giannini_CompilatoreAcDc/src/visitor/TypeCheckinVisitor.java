@@ -9,16 +9,17 @@ import symbolTable.SymbolTable;
 public class TypeCheckinVisitor implements IVisitor{
 
     private TypeDescriptor resType; // mantiene il risultato della visita
+    private String log; // mantiene il log degli errori
 
     public TypeCheckinVisitor(){
         SymbolTable.init();
+        log = "";
     }
 
     @Override
     public void visit(NodeBinOp node) {
 
        node.getLeft().accept(this);
-       
        TypeDescriptor leftTD = resType;
 
        node.getRight().accept(this);
@@ -51,6 +52,7 @@ public class TypeCheckinVisitor implements IVisitor{
                 errorMessage.append("Errore da rightTD");
             }
             resType = new TypeDescriptor(TipoTD.ERROR, errorMessage.toString());
+            log += resType.getMsg();
         }
     }
 
@@ -64,6 +66,7 @@ public class TypeCheckinVisitor implements IVisitor{
         }
         else{
             resType = new TypeDescriptor(TipoTD.ERROR, "Tipo non valido");
+            log += "Errore: " + resType.getMsg();
         }
     }
 
@@ -84,7 +87,8 @@ public class TypeCheckinVisitor implements IVisitor{
         
         if(SymbolTable.lookup(node.getName()) == null){
         
-            resType = new TypeDescriptor(TipoTD.ERROR, "Variabile non dichiarata");
+            resType = new TypeDescriptor(TipoTD.ERROR, "Variabile '" + node.getName() + "' non dichiarata; ");
+            log += "Errore: " + resType.getMsg();
         
         }else{
         
@@ -98,6 +102,7 @@ public class TypeCheckinVisitor implements IVisitor{
 
             else {
                 resType = new TypeDescriptor(TipoTD.ERROR, "Tipo non valido");
+                log += "Errore: " + resType.getMsg();
             }
         }
     }
@@ -120,7 +125,8 @@ public class TypeCheckinVisitor implements IVisitor{
                 idTD = new TypeDescriptor(TipoTD.ERROR, "Tipo non valido");
             }
         }else{
-            idTD = new TypeDescriptor(TipoTD.ERROR, "Variabile già dichiarata");
+            idTD = new TypeDescriptor(TipoTD.ERROR, "Variabile '" + node.getId().getName() + "' già dichiarata; ");
+            log += "Errore: " + idTD.getMsg();
             return;
         }
 
@@ -136,6 +142,7 @@ public class TypeCheckinVisitor implements IVisitor{
         //controllo se l'inizializzazione è compatibile con il tipo della variabile
         if(!initTD.compatibile(idTD)){
             resType = new TypeDescriptor(TipoTD.ERROR, "Impossibile assegnare un valore di tipo " + initTD + " a una variabile di tipo " + idTD);
+            log += "Errore: " + resType.getMsg();
         }
         else{
             resType = new TypeDescriptor(TipoTD.OK);
@@ -147,8 +154,9 @@ public class TypeCheckinVisitor implements IVisitor{
         
         node.getId().accept(this);
 
-        if(resType.getTipo() ==TipoTD.ERROR){
-            resType = new TypeDescriptor(TipoTD.ERROR, "Impossibile stampare una variabile non dichiarata");
+        if(resType.getTipo() == TipoTD.ERROR){
+            resType = new TypeDescriptor(TipoTD.ERROR, "Impossibile stampare '" + node.getId().getName() + "': variabile non dichiarata; ");
+            log = "Errore: " + resType.getMsg();
         }
     }
 
@@ -162,12 +170,16 @@ public class TypeCheckinVisitor implements IVisitor{
 
         //controllo se l'espressione è compatibile con il tipo della variabile
         if(!exprTD.compatibile(idTD)){
-            resType = new TypeDescriptor(TipoTD.ERROR, "Impossibile assegnare un valore di tipo " + exprTD + " a una variabile di tipo " + idTD);
+            resType = new TypeDescriptor(TipoTD.ERROR, "Impossibile assegnare un valore di tipo " + exprTD.getTipo() + " a una variabile di tipo " + idTD.getTipo() + " ");
+            log += "Errore: " + resType.getMsg();
         }
         else{
             resType = new TypeDescriptor(TipoTD.OK);
         }
-
     }
     
+    public String getLog(){
+        return log;
+    }
+
 }

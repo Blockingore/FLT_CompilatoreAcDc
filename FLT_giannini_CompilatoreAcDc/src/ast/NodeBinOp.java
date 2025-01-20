@@ -40,9 +40,6 @@ public class NodeBinOp extends NodeExpr {
 	@Override
 	public String calcCodice() {
 
-			String leftCd = left.calcCodice();//codice della espressione sinistra
-			String rightCd = right.calcCodice();//codice della espressione destra
-
 			if(this.getOp() == LangOper.PLUS){
 				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " +";
 			}else if(this.getOp() == LangOper.MINUS){
@@ -56,7 +53,7 @@ public class NodeBinOp extends NodeExpr {
 			}else if(this.getOp() == LangOper.DIV_FLOAT){
 				return this.getLeft().calcCodice() + " " + this.getRight().calcCodice() + " 5 k / 0 k";
 			}else
-			return "";
+				return "";
 	}
 
 	@Override

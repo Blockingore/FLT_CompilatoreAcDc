@@ -11,7 +11,7 @@ import parser.SyntacticException;
 import scanner.LexicalException;
 import scanner.Scanner;
 
-public class testAST {
+public class TestAST {
 	
 	String path = "src/test/data/testParser/";
 

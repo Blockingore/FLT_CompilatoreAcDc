@@ -15,7 +15,7 @@ public class CodeGeneratorVisitor implements IVisitor{
     public CodeGeneratorVisitor(){
         Registri.init();
         codiceGenerato = "";
-        log = ""; 
+        log = "";
     }
 
     public String getCodiceGenerato() {
@@ -48,8 +48,7 @@ public class CodeGeneratorVisitor implements IVisitor{
 
         for(NodeDecSt n : node.getDecSts()){
         
-            if(log != null){
-        
+            if(log == ""){
                 n.accept(this);
                 if(codiceDc == ""){
                     codiceGenerato += "";
@@ -80,7 +79,6 @@ public class CodeGeneratorVisitor implements IVisitor{
             registro = Registri.newRegister();
         } catch (CodeGeneretorException e) {
             log = e.getMessage();
-            codiceGenerato = "";
             return;
         }
     
@@ -96,7 +94,6 @@ public class CodeGeneratorVisitor implements IVisitor{
     @Override
     public void visit(NodeAssign node) {
 		codiceDc = node.calcCodice();
-
     }
 
 }
