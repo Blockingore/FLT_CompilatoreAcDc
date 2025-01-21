@@ -2,6 +2,8 @@ package symbolTable;
 
 import java.util.ArrayList;
 
+import exception.*;
+
 public class Registri {
     
     static ArrayList<Character> caratteri = new ArrayList<Character>();

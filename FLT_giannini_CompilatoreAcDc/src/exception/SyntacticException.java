@@ -1,4 +1,4 @@
-package parser;
+package exception;
 
 public class SyntacticException extends Exception {
 

@@ -3,7 +3,8 @@ package parser;
 import java.util.ArrayList;
 
 import ast.*;
-import scanner.LexicalException;
+import exception.LexicalException;
+import exception.SyntacticException;
 import scanner.Scanner;
 import token.*;
 

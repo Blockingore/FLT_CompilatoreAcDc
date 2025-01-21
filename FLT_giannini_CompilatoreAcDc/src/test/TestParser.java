@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import exception.LexicalException;
+import exception.SyntacticException;
 import parser.Parser;
-import parser.SyntacticException;
-import scanner.LexicalException;
 import scanner.Scanner;
 
 public class TestParser {

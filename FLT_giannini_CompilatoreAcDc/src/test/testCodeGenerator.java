@@ -12,6 +12,7 @@ import parser.*;
 import scanner.Scanner;
 import symbolTable.Registri;
 import ast.NodeProgramm;
+import exception.SyntacticException;
 import visitor.*;
 
 public class TestCodeGenerator {

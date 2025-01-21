@@ -7,6 +7,7 @@ import java.io.PushbackReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import exception.LexicalException;
 import token.*;
 
 public class Scanner {

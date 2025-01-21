@@ -7,10 +7,9 @@ import parser.*;
 import scanner.Scanner;
 import visitor.TypeCheckinVisitor;
 import ast.*;
+import exception.SyntacticException;
 
 import org.junit.Test;
-
-import parser.SyntacticException;
 
 public class TestTypeChecking {
     final String path = "src/test/data/testTypeChecking/";

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import scanner.LexicalException;
+import exception.LexicalException;
 import scanner.Scanner;
 import token.Token;
 import token.TokenType;

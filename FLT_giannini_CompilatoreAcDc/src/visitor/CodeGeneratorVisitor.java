@@ -1,9 +1,9 @@
 package visitor;
     
 import ast.*;
+import exception.CodeGeneretorException;
 import symbolTable.SymbolTable;
 import symbolTable.SymbolTable.Attributes;
-import symbolTable.CodeGeneretorException;
 import symbolTable.Registri;
 
 public class CodeGeneratorVisitor implements IVisitor{
@@ -121,10 +121,6 @@ public class CodeGeneratorVisitor implements IVisitor{
 
             codiceDc = codiceInit + " s" + codiceId;
 
-            /*
-                if (codiceDc.contains("5 k"))
-				    codiceDc = codiceDc.concat(" 0 k");
-            */
         }       
 
     }

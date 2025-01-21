@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import ast.*;
+import exception.*;
 import parser.Parser;
-import parser.SyntacticException;
-import scanner.LexicalException;
 import scanner.Scanner;
 
 public class TestAST {
