@@ -18,12 +18,12 @@ public class NodeDeref extends NodeExpr{
 	public String toString() {
 		return "NodeDeref -> [id=" + id + "];\t";
 	}
-
+/*
 	@Override
 	public String calcCodice() {
 		return "l" + id.calcCodice();
 	}
-
+*/
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

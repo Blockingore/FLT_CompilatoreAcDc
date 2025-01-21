@@ -18,13 +18,13 @@ public class NodeId extends NodeAST {
 		return "NodeId -> [names=" + name + "]; \t";
 	}
 
-
-	//forse devo fare il controllo nella symboltable
+/*
 	@Override
     public String calcCodice(){
 		return name;
-	}
-	@Override
+		}
+*/
+		@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
 	}

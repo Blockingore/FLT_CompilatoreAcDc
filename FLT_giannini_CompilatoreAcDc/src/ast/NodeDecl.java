@@ -32,13 +32,15 @@ public class NodeDecl extends NodeDecSt {
 		return "\tNodeDecl -> [id=" + id.toString() + ", type=" + type + ", init=" + init + "];\t";
 	}
 
+	/* 
 	@Override
 	public String calcCodice() {
 		if(init == null)
-			return "";
+		return "";
 		else
 		return init.calcCodice() + " s" + id.calcCodice();
 	}
+	*/
 
 	@Override
 	public void accept(IVisitor visitor) {

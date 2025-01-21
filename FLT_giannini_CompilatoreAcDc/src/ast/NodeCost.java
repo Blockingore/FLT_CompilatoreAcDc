@@ -24,11 +24,12 @@ public class NodeCost extends NodeExpr {
 		return "NodeCost -> [value=" + value + ", type=" + type + "];\t";
 	}
 
+/*	
 	@Override
 	public String calcCodice() {
 		return value;
 	}
-
+*/
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

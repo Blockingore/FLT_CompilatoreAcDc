@@ -23,12 +23,12 @@ public class NodeAssign extends NodeStm {
 	public String toString() {
 		return "NodeAssign -> [id=" + id + ", expr=" + expr + "];\t";
 	}
-
+/*
 	@Override
 	public String calcCodice() {
 		return expr.calcCodice() + " s" + id.calcCodice() ;
 	}
-
+*/
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

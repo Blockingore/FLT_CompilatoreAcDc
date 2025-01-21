@@ -17,12 +17,12 @@ public class NodePrint extends NodeStm {
 	public String toString() {
 		return "NodePrint -> [id=" + id.toString() + "];\t";
 	}
-
+/* 
 	@Override
 	public String calcCodice() {
 		return "l" +id.calcCodice() + " p P";
 	}
-
+*/
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);

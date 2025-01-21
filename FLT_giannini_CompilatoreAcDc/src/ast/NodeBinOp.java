@@ -35,7 +35,7 @@ public class NodeBinOp extends NodeExpr {
 		return "NodeBinOp -> [op=" + op + ", left=" + left + ", right=" + right + "];\t";
 	}
 
-
+/*
 	//Questo metodo è implementato in tutti i nodi concreti e ha lo stesso comportamento del visitor del nodo corrispondente.
 	@Override
 	public String calcCodice() {
@@ -55,7 +55,7 @@ public class NodeBinOp extends NodeExpr {
 			}else
 				return "";
 	}
-
+ */
 	@Override
 	public void accept(IVisitor visitor) {
 		visitor.visit(this);
