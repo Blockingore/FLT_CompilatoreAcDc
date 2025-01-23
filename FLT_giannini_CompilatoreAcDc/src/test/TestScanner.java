@@ -14,33 +14,28 @@ import token.TokenType;
 class TestScanner {
 
 	String path = "src/test/data/testScanner/";
-
 	
 	@Test
 	void testNextToken() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "testGenerale.txt");
 		Scanner scan = new Scanner(path + "testGenerale.txt");
 		
-		
-		
 		Token tk;
-		
-		
+
+		//riga 1
 		 tk = scan.nextToken();
 		 
 		 assertEquals(  TokenType.TYINT  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 1  );
-
-		 tk = scan.nextToken();
 		 
+		 tk = scan.nextToken();
 		 assertEquals(  TokenType.ID  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 1  );
+		 assertEquals( "temp", tk.getVal());
 		
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.SEMI  , tk.getTipo() );
-		 assertEquals( tk.getRiga(), 1  );
-		 
+		 assertEquals( tk.getRiga(), 1  ); 
 		 
 		 //riga 2
 		 tk = scan.nextToken();
@@ -52,12 +47,12 @@ class TestScanner {
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.OP_ASSIGN  , tk.getTipo() );
 		 assertEquals(  "+="  , tk.getVal() );
-
 		 assertEquals( tk.getRiga(), 2  );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.FLOAT  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 2  );
+		 assertEquals(  "5.0"  , tk.getVal() );
 		
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.SEMI  , tk.getTipo() );
@@ -73,6 +68,7 @@ class TestScanner {
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.ID  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 4  );
+		 assertEquals( tk.getVal(), "b"  );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.SEMI  , tk.getTipo() );
@@ -83,14 +79,17 @@ class TestScanner {
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.ID  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 5  );
+		 assertEquals( tk.getVal(), "b"  );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.ASSIGN  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 5  );
+		 assertEquals( tk.getVal(), "="  );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.ID  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 5  );
+		 assertEquals( tk.getVal(), "temp" );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.PLUS  , tk.getTipo() );
@@ -99,6 +98,7 @@ class TestScanner {
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.FLOAT  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 5  );
+		 assertEquals( tk.getVal(), "3.2" );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.SEMI  , tk.getTipo() );
@@ -112,6 +112,7 @@ class TestScanner {
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.ID  , tk.getTipo() );
 		 assertEquals( tk.getRiga(), 6  );
+		 assertEquals( tk.getVal(), "b" );
 		 
 		 tk = scan.nextToken();
 		 assertEquals(  TokenType.SEMI  , tk.getTipo() );
@@ -128,7 +129,6 @@ class TestScanner {
 	@Test
 	void testCaratteriNonCaratteri() throws IOException, LexicalException {
 		
-	    //Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 	    Scanner scan = new Scanner(path + "caratteriNonCaratteri.txt");
 	    Token tk;
 	    
@@ -154,7 +154,6 @@ class TestScanner {
 	@Test
 	void testCaratteriSkip() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "caratteriSkip");
 		Token tk;
 		
@@ -166,15 +165,18 @@ class TestScanner {
 	@Test
 	void testErroriNumbers() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "erroriNumbers.txt");
 		Token tk;
 		
 		tk = scan.nextToken();
 		assertEquals(  TokenType.INT  , tk.getTipo() );
+		assertEquals(  1 , tk.getRiga() );
+		assertEquals(  "0" , tk.getVal() );
 		
 		tk = scan.nextToken();
 		assertEquals(  TokenType.INT  , tk.getTipo() );
+		assertEquals(  1 , tk.getRiga() );
+		assertEquals(  "33" , tk.getVal() );
 		
 
     	LexicalException e = assertThrows(LexicalException.class, () -> {scan.nextToken();});
@@ -189,7 +191,6 @@ class TestScanner {
 	@Test	
 	void testEOF() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testEOF.txt");
 		Token tk;
 		
@@ -201,33 +202,34 @@ class TestScanner {
 	@Test
 	void testFloat() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testFloat.txt");
 		Token tk;
 		
 		tk = scan.nextToken();
 		assertEquals(  TokenType.FLOAT  , tk.getTipo() );
 		assertEquals(  1  , tk.getRiga() );
+		assertEquals(  "98.8095"  , tk.getVal() );
 		
 		tk = scan.nextToken();
 		assertEquals(  TokenType.FLOAT  , tk.getTipo() );
 		assertEquals(  2  , tk.getRiga() );
-
+		assertEquals(  "0.0"  , tk.getVal() );
+		
 		tk = scan.nextToken();
 		assertEquals(  TokenType.FLOAT  , tk.getTipo() );
 		assertEquals(  3  , tk.getRiga() );
+		assertEquals(  "98.0"  , tk.getVal() );
 		
 		tk = scan.nextToken();
 		assertEquals(  TokenType.FLOAT  , tk.getTipo() );
 		assertEquals(  5  , tk.getRiga() );
+		assertEquals(  "89.99999"  , tk.getVal() );
 
-				
 	}
 	
 	@Test
 	void testId() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testId.txt");
 		Token tk;
 		
@@ -251,7 +253,6 @@ class TestScanner {
 	@Test
 	void testIdKeywords() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testIdKeyWords.txt");
 		Token tk;
 		
@@ -287,7 +288,6 @@ class TestScanner {
 	@Test
 	void testInt() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testInt.txt");
 		Token tk;
 		
@@ -313,7 +313,6 @@ class TestScanner {
 	@Test
 	void testKeyWords() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testKeywords.txt");
 		Token tk;
 		
@@ -334,7 +333,6 @@ class TestScanner {
 	@Test
 	void testOpsDels() throws LexicalException, IOException {
 		
-		//Scanner scan = new Scanner(path_mac + "caratteriNonCaratteri.txt");
 		Scanner scan = new Scanner(path + "testOpsDels.txt");
 		Token tk;
 		
@@ -391,19 +389,21 @@ class TestScanner {
 		assertEquals(  10  , tk.getRiga() );
 	}
 	
-
 	@Test
 	void peekToken () throws LexicalException, IOException {
+
 		Scanner s = new Scanner (path + "testGenerale.txt");
+
 		assertEquals(s.peekToken().getTipo(), TokenType.TYINT );
 		assertEquals(s.nextToken().getTipo(), TokenType.TYINT );
 		assertEquals(s.peekToken().getTipo(), TokenType.ID );
 		assertEquals(s.peekToken().getTipo(), TokenType.ID );
+		
 		Token t = s.nextToken();
+		
 		assertEquals(t.getTipo(), TokenType.ID);
 		assertEquals(t.getRiga(), 1);
 		assertEquals(t.getVal(), "temp");
 	}
-
 
 }

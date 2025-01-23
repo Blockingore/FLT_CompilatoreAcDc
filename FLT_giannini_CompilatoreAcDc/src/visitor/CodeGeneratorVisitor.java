@@ -6,12 +6,22 @@ import symbolTable.SymbolTable;
 import symbolTable.SymbolTable.Attributes;
 import symbolTable.Registri;
 
+/**
+ * Implementa il CodeGeneratorVisitor, che traduce il codice ac in codice dc.
+ * 
+ * @author Luca Iacobucci, 20035727
+ * @author Andrija Jovic, 20034244
+ */
 public class CodeGeneratorVisitor implements IVisitor{
 
     String codiceDc;    // mantiene il codice della visita
     String codiceGenerato; // mantiene il codice generato
     String log; // mantiene il log degli errori
 
+    /**
+	 * Costruttore per CodeGeneratorVisitor, inizializza Registri e campi della
+	 * classe.
+	 */
     public CodeGeneratorVisitor(){
         Registri.init();
         codiceGenerato = "";
@@ -19,10 +29,20 @@ public class CodeGeneratorVisitor implements IVisitor{
         codiceDc = "";
     }
 
+    /**
+	 * Restituisce il codice generato
+	 * 
+	 * @return il codice generato
+	 */
     public String getCodiceGenerato() {
         return codiceGenerato.trim();
     }
 
+    /**
+	 * Restituisce il log contenente il messaggio d'errore
+	 * 
+	 * @return log con messaggio di errore
+	 */
     public String getLog() {
         return log;
     }
@@ -149,5 +169,4 @@ public class CodeGeneratorVisitor implements IVisitor{
         codiceDc = codiceExpr + " s" + codiceId;
 
     }
-
 }

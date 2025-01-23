@@ -1,8 +1,8 @@
 int a=0;
 a += 1;
 int b=6;
-float t;
-t =  1.0 / 6 + a / b;  
+float temp;
+temp =  1.0 / 6 + a / b;  
 print a;
 print b;
-print t; 
+print temp; 

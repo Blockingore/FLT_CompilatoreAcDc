@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import token.Token;
 import token.TokenType;
 
+/**
+ * Test per la classe Token
+ * 
+ * @author Luca Iacobucci, 20035727
+ * @author Andrija Jovic, 20034244
+ */
 class TestToken {
 
 	@Test

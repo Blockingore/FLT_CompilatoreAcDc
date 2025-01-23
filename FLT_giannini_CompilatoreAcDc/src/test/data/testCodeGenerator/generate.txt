@@ -1,5 +1,0 @@
-3_generale.txt
-5 3 + si li 0.5 + sf li p P lf 4 5 k / 0 k sf lf p P lf 1 - sg lg lf * sg lg p P
-
-2_divisioni.txt
-0 sa la 1 + sa 6 sb 1.0 6 5 k / 0 k la lb / + stemp la p P lb p P ltemp p P 

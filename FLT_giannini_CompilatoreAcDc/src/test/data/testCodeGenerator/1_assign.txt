@@ -1,2 +1,2 @@
-int t = 1 / 6; 
-print t;
+int temp = 1 / 6; 
+print temp;

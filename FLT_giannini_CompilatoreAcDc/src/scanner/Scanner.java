@@ -10,12 +10,19 @@ import java.util.HashMap;
 import exception.LexicalException;
 import token.*;
 
+/**
+ * Implementa uno scanner che legge i caratteri da un file e
+ * restituisce dei token rappresentanti quei caratteri.
+ * 
+ * @author Luca Iacobucci, 20035727
+ * @author Andrija Jovic, 20034244
+ */
 public class Scanner {
+
 	final char EOF = (char) -1; 
 	private int riga;
 	private PushbackReader buffer;
 
-	
 	// skpChars: insieme caratteri di skip (include EOF) e inizializzazione
 	private ArrayList<Character> skpChars;
 	// letters: insieme lettere 
@@ -32,9 +39,11 @@ public class Scanner {
 	// keyWordsTkType: mapping fra le stringhe "print", "float", "int" e il TokenType  corrispondente
 	HashMap<String, TokenType  > keyWordsTkType;
 	
-	
 	private Token nextTk = null;
-	
+
+	/*
+	 * Rimepie l'arraylist di caratteri che sono da skippare
+	 */
 	public void fillSkippers() {
 		skpChars = new ArrayList<Character>();
 		skpChars.add(' ');
@@ -44,6 +53,9 @@ public class Scanner {
 		skpChars.add(EOF);		 
 	}
 	
+	/*
+	 * Rimepie l'arraylist di lettere
+	 */
 	public void fillLetters() {
 		letters = new ArrayList<Character>();
 		
@@ -53,9 +65,11 @@ public class Scanner {
 		for(char c = 'A'; c <= 'Z'; c++ ) {
 			letters.add(c);
 		}
-	
 	}
 	
+	/*
+	 * Rimepie l'arraylist di caratteri che sono da skippare
+	 */
 	public void fillDigits() {
 		digits = new ArrayList<Character>();
 		
@@ -64,10 +78,17 @@ public class Scanner {
 		}
 	}	
 	
+	/**
+	 * Costruisce dello scanner e lo inizializza
+	 * @param fileName file da dove leggere i caratteri
+	 * @return il carattere letto
+	 * @throws LexicalException se non è possibile leggere dal buffer
+	 */
 	public Scanner(String fileName) throws FileNotFoundException {
 
 		this.buffer = new PushbackReader(new FileReader(fileName));
 		riga = 1;
+
 		// inizializzare campi che non hanno inizializzazione
 		fillSkippers(); // inizializzo skippers
 		fillDigits();  //inizializzo digits
@@ -89,10 +110,15 @@ public class Scanner {
 		
 		delimTkType.put( '=', TokenType.ASSIGN  );
 		delimTkType.put( ';', TokenType.SEMI  );
-		
-		
 	}
 
+	/**
+	 * Ritorna il prossimo token riconosciuto, consumandolo.
+	 * 
+	 * @return il token riconosciuto
+	 * @throws LexicalException se il carattere non è ammesso
+	 *                          
+	 */
 	public Token nextToken() throws LexicalException {
 		
 		if(nextTk != null) {
@@ -175,6 +201,12 @@ public class Scanner {
 		
 		}
 
+	/**
+	 * Ritorna il prossimo token riconosciuto, senza consumarlo.
+	 * 
+	 * @return il token riconosciuto
+	 * @throws LexicalException se il carattere non è ammesso
+	 */
 	public Token peekToken() throws LexicalException {
 		
 		if(nextTk == null) {
@@ -183,21 +215,31 @@ public class Scanner {
 		return nextTk;
 	}
 
+	/**
+	 * Legge eventuali caratteri riconosciuti come numeri e
+	 * costruisce il numero finale ritornando il token (INT o FLOAT) corrispondente
+	 * 
+	 * @param il carattere letto
+	 * @return il token corrispondente con il valore letto
+	 * @throws LexicalException se il numero è in formato non ammesso
+	 */
 	private Token scanNumber(char nextChar) throws LexicalException {
 		
 	    StringBuilder numero = new StringBuilder(); // Accumula i caratteri del numero
 	   
-		boolean isFloat = false; // Per distinguere tra INT e FLOAT
+		boolean isFloat = false; 
 	    int numbCounter = 0;
 	    
+		//ciclo per eliminare eventuali zeri presenti all'inizio del numero tranne uno (potrebbe essere 0.xxx)
 	    while (nextChar == '0') {
-	    	if(numero.length() < 1)
-	        	numero.append('0'); // Manteniamo uno zero
-	    	readChar(); // Consuma lo zero
+	    	if(numero.length() < 1){
+				numero.append('0'); //se è il primo che trovo lo mantengo
+			}
+	    	readChar(); 
 	        nextChar = peekChar();
-	        	        if (nextChar == '.') { // Caso di "0." per float
-	        		break;
-	        	}
+			if (nextChar == '.'){ // Caso di "0." per float, esco dal ciclo
+				break;
+			}
 	    }
 	   
 	    while (Character.isDigit(nextChar) || nextChar == '.') { // cicliamo finchè il prossimo carattere è un numero o un '.'
@@ -205,7 +247,7 @@ public class Scanner {
 	    	if (nextChar == '.') {  
 	            if (isFloat) { // se legge più di un punto 
 	            	readChar();
-	                throw new LexicalException("Numero non valido (doppio punto) alla riga " + riga); // Se troviamo un secondo punto, è un errore lessicale
+	                throw new LexicalException("Numero non valido (doppio punto) alla riga " + riga);
 	            }
 	            isFloat = true; // Indichiamo che il numero è un FLOAT
 	        }
@@ -214,14 +256,16 @@ public class Scanner {
 	        	numbCounter++;
 	        }
 	        
-	        numero.append(nextChar); // Aggiungiamo il carattere al numero
-	        readChar(); // Consumiamo il carattere
-	        nextChar = peekChar(); // Leggiamo il prossimo carattere
-	        /*
+	        numero.append(nextChar); // Aggiungo il carattere al numero
+	        readChar(); 
+	        nextChar = peekChar();
+
+			/*
 	        //non accetto 5. come float;
-	        if(isFloat && !Character.isDigit(nextChar)) {
+	        if(isFloat && !Character.isDigit(nextChar) && numero.charAt(numero.length()-1) == '.') {
             	throw new LexicalException("Numero non valido alla riga " + riga + "; non c'è niente dopo il punto");
-            }*/
+            }
+			*/
 	    }//fine while
 	    
 	    //accetto 5. come float e lo salvo come 5.0;
@@ -229,7 +273,8 @@ public class Scanner {
 	    	numero.append('0');
 	    	numbCounter = 1;
 	    }
-	    
+
+	    //controllo che non ci sia uno zero iniziale ad eccezione di 0.xxx
 	    if(numero.charAt(0) == '0' && numero.length() > 1 && numero.charAt(1) != '0' && numero.charAt(1) != '.'  ) {
 	    	numero.deleteCharAt(0);	    	
 	    }
@@ -245,8 +290,15 @@ public class Scanner {
 	    }
 	}
 	
+	/**
+	 * Legge eventuali caratteri riconosciuti come lettere, 
+	 * costruisce la stringa finale ritornando il token corrispondente
+	 * 
+	 * @return il token corrispondente con il valore letto
+	 * @throws LexicalException se trova un carattere non ammesso
+	 */
 	private Token scanId(char nextChar) throws LexicalException {
-	    // Inizializziamo un oggetto StringBuilder per costruire dinamicamente la stringa dell'identificatore
+
 	    StringBuilder stringa_di_appoggio = new StringBuilder();
 
 	    // Ciclo che continua fino a quando il carattere successivo fa parte di letters
@@ -269,6 +321,12 @@ public class Scanner {
 	    return new Token(TokenType.ID, riga, stringa_di_appoggio.toString());
 	}
 
+	/**
+	 * Legge un carattere consumandolo
+	 * 
+	 * @return il carattere letto
+	 * @throws LexicalException se non è possibile leggere dal buffer
+	 */
 	private char readChar() throws LexicalException {
 		try {
 			return ((char) this.buffer.read());
@@ -277,6 +335,12 @@ public class Scanner {
 		}
 	}
 
+	/**
+	 * Legge un carattere senza consumarlo
+	 * 
+	 * @return il carattere letto
+	 * @throws LexicalException se non è possibile leggere dal buffer
+	 */
 	private char peekChar() throws LexicalException {
 		try {
 			char c = (char) buffer.read();

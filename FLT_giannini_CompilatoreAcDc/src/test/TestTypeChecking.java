@@ -8,12 +8,17 @@ import scanner.Scanner;
 import visitor.TypeCheckinVisitor;
 import ast.*;
 import exception.SyntacticException;
-
 import org.junit.Test;
 
+/**
+ * Test per il TypeChecking
+ * 
+ * @author Luca Iacobucci, 20035727
+ * @author Andrija Jovic, 20034244
+ */
 public class TestTypeChecking {
-    final String path = "src/test/data/testTypeChecking/";
-
+	
+    String path = "src/test/data/testTypeChecking/";
 
     @Test
 	public void test1_DicRipetute() throws FileNotFoundException, SyntacticException {

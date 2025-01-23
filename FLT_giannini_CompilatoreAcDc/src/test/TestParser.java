@@ -11,8 +11,14 @@ import exception.SyntacticException;
 import parser.Parser;
 import scanner.Scanner;
 
-public class TestParser {
 
+/**
+ * Test per il parser
+ * 
+ * @author Luca Iacobucci, 20035727
+ * @author Andrija Jovic, 20034244
+ */
+public class TestParser {
 
 	String path = "src/test/data/testParser/";
 
@@ -25,6 +31,7 @@ public class TestParser {
 		assertDoesNotThrow( () -> p.parse());
 		
 	}
+	
 	@Test
 	void testParserCorretto2() throws SyntacticException, LexicalException, IOException {
 		Scanner s = new Scanner(path + "testParserCorretto2.txt");
@@ -128,7 +135,5 @@ public class TestParser {
 		
 		assertDoesNotThrow(() -> p.parse() );	  
 	}
-
-
 
 }

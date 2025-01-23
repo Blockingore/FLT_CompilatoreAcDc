@@ -1,16 +1,23 @@
 package visitor;
 
-
-
 import ast.*;
 import symbolTable.SymbolTable;
 
-
+/**
+ * Implementa il TypeCheckinVisitor che svolge l'analisi semantica.
+ * 
+ * @author Luca Iacobucci, 20035727
+ * @author Andrija Jovic, 20034244
+ */
 public class TypeCheckinVisitor implements IVisitor{
 
     private TypeDescriptor resType; // mantiene il risultato della visita
     private String log; // mantiene il log degli errori
 
+    /**
+	 * Costruttore per TypeCheckingVisitor, inizializza la SymbolTable e i campi
+	 * della classe.
+	 */
     public TypeCheckinVisitor(){
         SymbolTable.init();
         log = "";
@@ -178,6 +185,11 @@ public class TypeCheckinVisitor implements IVisitor{
         }
     }
     
+    /**
+	 * Restituisce il log contenente il messaggio d'errore
+	 * 
+	 * @return log con messaggio di errore
+	 */
     public String getLog(){
         return log;
     }
